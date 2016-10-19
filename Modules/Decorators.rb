@@ -4,9 +4,7 @@ module Decorators
 	module ClassMethods
 		def method_added(meth)
 			if @decorator 
-				dec_meth = @decorator.keys[0]
-				dec_mess = @decorator.values[0]
-
+				dec_meth , dec_mess = @decorator.first
 				@decorator = nil
 
 				orig_method = instance_method(meth)
