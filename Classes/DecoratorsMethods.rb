@@ -1,11 +1,26 @@
 class DecoratorsMethods
-	def self.add_prefix(message ,orig_method, *args, &blk)
-		print message
-		orig_method.call(*args, &blk)
-	end
 
-	def self.add_postfix(message ,orig_method, *args, &blk)
-		orig_method.call(*args, &blk)
-		" " + message
-	end
+  def self._add_prefix(message)
+    print message
+  end
+
+  def self.add_postfix(message)
+    print ' ' + message
+  end
+
+  def self.decorate(decorators,meth, *args, &block)
+    decorators.select { |dec| dec.keys.first =~ /\A[:_]/}
+      .each do |dec|
+        self.send(dec.keys.first,dec.values.first)
+      end
+    
+    meth.call(*args,&block)
+
+    decorators.select { |dec| dec.keys.first !~ /\A[:_]/}
+      .each do |dec|
+        self.send(dec.keys.first,dec.values.first)
+      end
+      
+      return
+  end
 end
