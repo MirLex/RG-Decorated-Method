@@ -9,7 +9,7 @@ RSpec.describe Decorators do
       _add_prefix('Hello ')
       add_postfix('!')
       def method_a
-        'from a'
+        print 'from a'
       end
 
       def method_b
@@ -22,10 +22,15 @@ RSpec.describe Decorators do
       end
     end
   end
-  context 'call method' do
-     it 'call method_a' do
-      res =  obj.method_a
-      expect(res).to eq('111')
-     end   
+  context 'call methods' do
+    it 'call method without decorators' do
+      expect { obj.method_b }.to output('from b').to_stdout
+    end
+    it 'call method with single decorator' do
+      expect { obj.method_c }.to output('from c Bay.').to_stdout
+    end
+    it 'call method with multiple decorators' do
+      expect { obj.method_a }.to output('Hello from a !').to_stdout
+    end
   end
 end
