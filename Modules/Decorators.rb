@@ -19,13 +19,13 @@ module Decorators
 
     def method_missing(meth, *args)
       super unless DecoratorsMethods.methods(false).include?(meth)
-      @decorators ||= [] << { meth => args.size == 1 ? args.first : args }
+      (@decorators ||= []) << { meth => args.size == 1 ? args.first : args }
     end
   end
 
   module InstanceMethods
-    def respond_to?(meth)
-      DecoratorsMethods.methods(false).include?(meth) ? true : super
+    def respond_to_missing?(meth, include_private = false)
+      DecoratorsMethods.methods.include?(meth) || super
     end
   end
 
