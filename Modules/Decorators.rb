@@ -12,13 +12,11 @@ module Decorators
           meth = orig_method.bind(self)
           DecoratorsMethods.decorate(decorators, meth, *args, &block)
         end
-
       end
-      super
     end
 
     def method_missing(meth, *args)
-      super unless DecoratorsMethods.methods(false).include?(meth)
+      super unless DecoratorsMethods.methods.include?(meth)
       (@decorators ||= []) << { meth => args.size == 1 ? args.first : args }
     end
   end
@@ -30,7 +28,7 @@ module Decorators
   end
 
   def self.included(receiver)
-    receiver.extend ClassMethods
+    receiver.extend         ClassMethods
     receiver.send :include, InstanceMethods
   end
 end
