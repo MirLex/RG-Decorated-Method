@@ -33,4 +33,10 @@ RSpec.describe Decorators do
       expect { obj.method_a }.to output('Hello from a !').to_stdout
     end
   end
+
+  context 'instance respond to decorators methods' do
+    it 'respond to _add_prefix, add_postfix methods' do
+      expect(obj).to respond_to(:_add_prefix, :add_postfix)    
+    end
+  end
 end
