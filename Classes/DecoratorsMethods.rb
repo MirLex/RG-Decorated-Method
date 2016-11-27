@@ -9,17 +9,12 @@ class DecoratorsMethods
 
   def self.decorate(decorators, meth, *args, &block)
     decorators.select { |dec| dec.keys.first =~ /\A[:_]/ }
-              .each do |dec|
-      send(dec.keys.first, dec.values.first)
-    end
+              .each { |dec| send(dec.keys.first, dec.values.first) }
 
     meth.call(*args, &block)
 
     decorators.select { |dec| dec.keys.first !~ /\A[:_]/ }
-              .each do |dec|
-      send(dec.keys.first, dec.values.first)
-    end
-
+              .each { |dec| send(dec.keys.first, dec.values.first) }
     nil
   end
 end
